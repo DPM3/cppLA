@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdarg>
 using namespace std;
 
 template<int SIZE> class Vector {
