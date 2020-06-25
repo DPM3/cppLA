@@ -1,10 +1,17 @@
 #include <iostream>
+#include <cstdarg>
 using namespace std;
 
 template<int SIZE> class Vector {
 private:
 	double vals[SIZE];
 public:
+	Vector(double* arr) {
+		for (int i = 0; i < SIZE; i++) {
+			vals[i] = arr[i];
+		}
+	}
+
 	Vector<SIZE>& operator+= (Vector<SIZE> other) {
 		for(int i = 0; i < SIZE; i++) {
 			vals[i] += other.vals[i];
