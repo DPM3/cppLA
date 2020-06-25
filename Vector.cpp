@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdarg>
 using namespace std;
 
 template<int SIZE> class Vector {
@@ -8,11 +9,6 @@ public:
 	Vector() {
 		for (int i = 0; i < SIZE; i++) {
 			vals[i] = 0;
-		}
-	}
-	Vector(double* arr) {
-		for (int i = 0; i < SIZE; i++) {
-			vals[i] = arr[i];
 		}
 	}
 
