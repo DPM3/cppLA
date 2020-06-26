@@ -5,9 +5,9 @@ template<int SIZE> class Vector {
 private:
 	double vals[SIZE];
 public:
-	Vector(double* arr) {
+	Vector() {
 		for (int i = 0; i < SIZE; i++) {
-			vals[i] = arr[i];
+			vals[i] = 0;
 		}
 	}
 
@@ -45,3 +45,8 @@ template<int SIZE> Vector<SIZE> operator- (Vector<SIZE> v1, Vector<SIZE> v2) {
 	result -= v2;
 	return result;
 }
+
+//for convinience
+typedef Vector<2> Vector2;
+typedef Vector<3> Vector3;
+typedef Vector<4> Vector4;
