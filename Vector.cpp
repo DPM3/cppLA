@@ -1,9 +1,11 @@
 #include <iostream>
+#include <string>
 using namespace std;
 
-template<int SIZE> class Vector {
+template<int SIZE>
+class Vector {
 private:
-	class VectorDouble { 
+	class VectorDouble {
 	private:
 		double val;
 	public:
@@ -17,22 +19,21 @@ private:
 	};
 
 	VectorDouble vals[SIZE];
+
 public:
 	Vector() {
-		for (int i = 0; i < SIZE; i++) {
-			vals[i] = 0;
-		}
+		vals = { };
 	}
 
 	Vector<SIZE>& operator+= (Vector<SIZE> other) {
-		for(int i = 0; i < SIZE; i++) {
+		for (int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] + other.vals[i];
 		}
 		return *this;
 	}
 
 	Vector<SIZE>& operator-= (Vector<SIZE> other) {
-		for(int i = 0; i < SIZE; i++) {
+		for (int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] - other.vals[i];
 		}
 		return *this;
@@ -41,11 +42,20 @@ public:
 	VectorDouble& operator[] (int index) {
 		return vals[index];
 	}
-	
+
 	int size() {
 		return SIZE;
 	}
 };
+
+template<int SIZE> ostream& operator<< (ostream &strm, const Vector<SIZE> *v) {
+	string s = "[" + (v*)[0];
+	for (int i = 1; i < SIZE; i++) {
+		s += ", " + (v*)[i];
+	}
+	s += "]";
+	return strm << s;
+}
 
 template<int SIZE> Vector<SIZE> operator+ (Vector<SIZE> v1, Vector<SIZE> v2) {
 	Vector<SIZE> result = v1;
