@@ -17,6 +17,22 @@ template<int SIZE> class Vector {
 			*val = d;
 			return *this;
 		}
+		VectorDouble& operator+= (double d) {
+			*val += d;
+			return *this;
+		}
+		VectorDouble& operator-= (double d) {
+			*val -= d;
+			return *this;
+		}
+		VectorDouble& operator*= (double d) {
+			*val *= d;
+			return *this;
+		}
+		VectorDouble& operator/= (double d) {
+			*val /= d;
+			return *this;
+		}
 	};
 
 	double vals[SIZE];
@@ -29,15 +45,29 @@ public:
 	}
 
 	Vector<SIZE>& operator+= (const Vector<SIZE>& other) {
-		for(int i = 0; i < SIZE; i++) {
+		for (int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] + other.vals[i];
 		}
 		return *this;
 	}
 
 	Vector<SIZE>& operator-= (const Vector<SIZE>& other) {
-		for(int i = 0; i < SIZE; i++) {
+		for (int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] - other.vals[i];
+		}
+		return *this;
+	}
+
+	Vector<SIZE>& operator*= (double d) {
+		for (int i = 0; i < SIZE; i++) {
+			vals[i] *= d;
+		}
+		return *this;
+	}
+
+	Vector<SIZE>& operator/= (double d) {
+		for (int i = 0; i < SIZE; i++) {
+			vals[i] /= d;
 		}
 		return *this;
 	}
@@ -66,10 +96,7 @@ Vector<SIZE> operator- (Vector<SIZE> v1, const Vector<SIZE>& v2) {
 
 template<int SIZE>
 Vector<SIZE> operator* (double scalar, Vector<SIZE> v) {
-	for (int i = 0; i < SIZE; i++) {
-		v[i] = v[i] * scalar;
-	}
-	return v;
+	return v *= scalar;
 }
 
 template<int SIZE>
