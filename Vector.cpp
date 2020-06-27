@@ -2,21 +2,25 @@
 using namespace std;
 
 template<int SIZE> class Vector {
-private:
+	//used for proper interface for the individual elements of the vector
+	//(for example, when [] is called).
 	class VectorDouble { 
-	private:
-		double val;
+		double* val;
 	public:
+		VectorDouble(double& val) : val(&val) { }
+
 		operator double() {
-			return val;
+			return *val;
 		}
 
-		void operator= (double d) {
-			val = d;
+		VectorDouble& operator= (double d) {
+			*val = d;
+			return *this;
 		}
 	};
 
-	VectorDouble vals[SIZE];
+	double vals[SIZE];
+
 public:
 	Vector() {
 		for (int i = 0; i < SIZE; i++) {
@@ -24,21 +28,22 @@ public:
 		}
 	}
 
-	Vector<SIZE>& operator+= (Vector<SIZE> other) {
+	Vector<SIZE>& operator+= (const Vector<SIZE>& other) {
 		for(int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] + other.vals[i];
 		}
 		return *this;
 	}
 
-	Vector<SIZE>& operator-= (Vector<SIZE> other) {
+	Vector<SIZE>& operator-= (const Vector<SIZE>& other) {
 		for(int i = 0; i < SIZE; i++) {
 			vals[i] = vals[i] - other.vals[i];
 		}
 		return *this;
 	}
 
-	VectorDouble& operator[] (int index) {
+	VectorDouble operator[] (int index) {
+		//will work, implicit constructor of VectorDouble
 		return vals[index];
 	}
 	
@@ -47,27 +52,28 @@ public:
 	}
 };
 
-template<int SIZE> Vector<SIZE> operator+ (Vector<SIZE> v1, Vector<SIZE> v2) {
-	Vector<SIZE> result = v1;
-	result += v2;
-	return result;
+template<int SIZE>
+Vector<SIZE> operator+ (Vector<SIZE> v1, const Vector<SIZE>& v2) {
+	v1 += v2;
+	return v1;
 }
 
-template<int SIZE> Vector<SIZE> operator- (Vector<SIZE> v1, Vector<SIZE> v2) {
-	Vector<SIZE> result = v1;
-	result -= v2;
-	return result;
+template<int SIZE>
+Vector<SIZE> operator- (Vector<SIZE> v1, const Vector<SIZE>& v2) {
+	v1 -= v2;
+	return v1;
 }
 
-template<int SIZE> Vector<SIZE> operator* (double scalar, Vector<SIZE> v) {
-	Vector<SIZE> result = v;
+template<int SIZE>
+Vector<SIZE> operator* (double scalar, Vector<SIZE> v) {
 	for (int i = 0; i < SIZE; i++) {
-		result[i] = result[i] * scalar;
+		v[i] = v[i] * scalar;
 	}
-	return result;
+	return v;
 }
 
-template<int SIZE> Vector<SIZE> operator* (Vector<SIZE> v, double scalar) {
+template<int SIZE>
+Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar) {
 	return scalar * v;
 }
 
