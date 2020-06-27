@@ -1,4 +1,4 @@
-#include<iostream>
+#include<cmath>
 using namespace std;
 
 template<int SIZE>
@@ -103,4 +103,13 @@ Vector<SIZE> operator* (double scalar, Vector<SIZE> v) {
 template<int SIZE>
 Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar) {
 	return scalar * v;
+}
+
+template<int SIZE>
+double Vector<SIZE>::length() {
+	double squareSum = 0;
+	for (int i = 0; i < SIZE; i++) {
+		squareSum += pow(vals[i], 2);
+	}
+	return sqrt(squareSum);
 }

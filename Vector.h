@@ -19,6 +19,8 @@ public:
 	VectorDouble operator[] (int index);
 	
 	int size();
+
+	double length();
 };
 
 template<int SIZE>
