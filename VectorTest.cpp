@@ -1,5 +1,5 @@
 #include<iostream>
-#include"Vector.cpp"
+#include"Vector.h"
 
 int main() {
 	Vector3 vec3 = Vector3();
