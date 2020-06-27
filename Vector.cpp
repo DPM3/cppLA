@@ -104,8 +104,3 @@ template<int SIZE>
 Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar) {
 	return scalar * v;
 }
-
-//for convinience
-typedef Vector<2> Vector2;
-typedef Vector<3> Vector3;
-typedef Vector<4> Vector4;
