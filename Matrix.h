@@ -1,6 +1,6 @@
 #ifndef MATRIX_H
 #define MATRIX_H
-#include<Vector.h>
+#include"Vector.h"
 template<int ROWS, int COLS> class Matrix {
 	typedef Vector<ROWS> Vector;
 	Vector vals[COLS];
@@ -22,7 +22,7 @@ public:
 	Vector operator[] (int i);
 	double operator() (int i, int j);
 
-	Matrix minor(int row, int col) throw OutOfBounds;
+	Matrix minor(int row, int col) throw OutOfBoundsExpt;
 	bool hasInv() { return false; }
 }
 
