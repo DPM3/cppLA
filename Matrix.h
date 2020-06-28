@@ -56,12 +56,12 @@ public:
 }
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator+(const Matrix& m1, const Matrix& m2);
+Matrix<ROWS, COLS>& operator+(const Matrix<int ROWS, int COLS>& m1, const matrix<int ROWS, int COLS>& m2);
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator-(const Matrix& m1, const Matrix& m2);
+Matrix<ROWS, COLS>& operator-(const matrix<int ROWS, int COLS>& m1, const matrix<int ROWS, int COLS>& m2);
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator*(const Matrix& m1, const Matrix& m2);
+Matrix<ROWS, COLS>& operator*(const matrix<int ROWS, int COLS>& m1, const matrix<int ROWS, int COLS>& m2);
 
 #endif
