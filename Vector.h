@@ -1,3 +1,5 @@
+#ifndef MATRIX_H
+#define MATRIX_H
 #include<iostream>
 using namespace std;
 
@@ -45,3 +47,4 @@ typedef Vector<4> Vector4;
 //so whenever someone includes the Vector.h file, they are also including the Vector.cpp file,
 //so the Vector class will be compiled with it.
 #include"Vector.cpp"
+#endif
