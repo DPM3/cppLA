@@ -1,5 +1,5 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef VECTOR_H
+#define VECTOR_H
 #include<iostream>
 using namespace std;
 
