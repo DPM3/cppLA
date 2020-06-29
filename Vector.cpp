@@ -3,32 +3,32 @@ namespace vector {
 using namespace std;
 
 template<int SIZE>
-class Vector<SIZE>::VectorDouble { 
+class Vector<SIZE>::ElmtDouble { 
 	double* val;
 public:
-	VectorDouble(double& val) : val(&val) { }
+	ElmtDouble(double& val) : val(&val) { }
 
 	operator double() {
 		return *val;
 	}
 
-	VectorDouble& operator= (double d) {
+	ElmtDouble& operator= (double d) {
 		*val = d;
 		return *this;
 	}
-	VectorDouble& operator+= (double d) {
+	ElmtDouble& operator+= (double d) {
 		*val += d;
 		return *this;
 	}
-	VectorDouble& operator-= (double d) {
+	ElmtDouble& operator-= (double d) {
 		*val -= d;
 		return *this;
 	}
-	VectorDouble& operator*= (double d) {
+	ElmtDouble& operator*= (double d) {
 		*val *= d;
 		return *this;
 	}
-	VectorDouble& operator/= (double d) {
+	ElmtDouble& operator/= (double d) {
 		*val /= d;
 		return *this;
 	}
@@ -74,8 +74,8 @@ Vector<SIZE>& Vector<SIZE>::operator/= (double d) {
 }
 
 template<int SIZE>
-typename Vector<SIZE>::VectorDouble Vector<SIZE>::operator[] (int index) {
-	//will work, implicit constructor of VectorDouble
+typename Vector<SIZE>::ElmtDouble Vector<SIZE>::operator[] (int index) {
+	//will work, implicit constructor of ElmtDouble
 	return vals[index];
 }
 
