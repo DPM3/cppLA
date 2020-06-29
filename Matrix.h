@@ -14,7 +14,7 @@ public:
 	class OutOfBoundsExpt : public SizeExpt { };
 	class MultExpt : public SizeExpt { };
 
-	Matrix() /*throw (OutOfBoundsExpt)*/;
+	Matrix() throw (OutOfBoundsExpt);
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
@@ -22,10 +22,10 @@ public:
 	Matrix& operator*=(double scalar);
 	Vector<ROWS>& operator*=(const Vector<ROWS>& vec);
 
-	Vector<ROWS> operator[] (int i);
-	double operator() (int i, int j);
+	Vector<ROWS>& operator[] (int i);
+	typename Vector<ROWS>::ElmtDouble operator() (int i, int j);
 
-	Matrix minor(int row, int col) /*throw (OutOfBoundsExpt)*/;
+	Matrix<ROWS-1, COLS-1> minor(int row, int col) throw (OutOfBoundsExpt);
 	bool hasInv() { return false; }
 };
 
@@ -38,8 +38,8 @@ public:
 	class OutOfBoundsExpt : public SizeExpt { };
 	class MultExpt : public SizeExpt { };
 
-	Matrix() /*throw (OutOfBoundsExpt)*/;
-	Matrix(double scalar);
+	Matrix() throw (OutOfBoundsExpt);
+	Matrix(double scalar) throw (OutOfBoundsExpt);
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
@@ -47,12 +47,10 @@ public:
 	Matrix& operator*=(double scalar);
 	Vector<SIZE>& operator*=(const Vector<SIZE>& vec);
 
-	Vector<SIZE> operator[] (int i);
-	double& operator() (int i, int j) {
-		return vals[i].vals[j];
-	}
+	Vector<SIZE>& operator[] (int i);
+	typename Vector<SIZE>::ElmtDouble operator() (int i, int j);
 
-	Matrix minor(int row, int col) /*throw (OutOfBoundsExpt)*/;
+	Matrix<SIZE-1, SIZE-1> minor(int row, int col) throw (OutOfBoundsExpt);
 	bool hasInv();
 	double det();
 	Matrix adj();
@@ -60,17 +58,24 @@ public:
 };
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator+(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
+Matrix<ROWS, COLS> operator+(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
+Matrix<ROWS, COLS> operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator*(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
+Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator*(const Matrix<ROWS, COLS>& mat, double scalar);
+Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& mat, double scalar);
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator*(double scalar, const Matrix<ROWS, COLS>& mat);
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator-(const Matrix<ROWS, COLS>& mat);
 
 }
+#include"Matrix.cpp"
 
 #endif

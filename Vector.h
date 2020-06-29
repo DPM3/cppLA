@@ -13,11 +13,12 @@ using namespace std;
 template<int SIZE> class Vector {
 	//used for proper interface for the individual elements of the vector
 	//(for example, when [] is called).
-	class VectorDouble;
 
 	double vals[SIZE];
 
 public:
+	class ElmtDouble;
+
 	Vector();
 
 	Vector<SIZE>& operator+= (const Vector<SIZE>& other);
@@ -25,7 +26,7 @@ public:
 	Vector<SIZE>& operator*= (double d);
 	Vector<SIZE>& operator/= (double d);
 
-	VectorDouble operator[] (int index);
+	ElmtDouble operator[] (int index);
 	
 	int size();
 
