@@ -1,4 +1,5 @@
 #include<cmath>
+namespace vector {
 using namespace std;
 
 template<int SIZE>
@@ -112,4 +113,6 @@ double Vector<SIZE>::length() {
 		squareSum += pow(vals[i], 2);
 	}
 	return sqrt(squareSum);
+}
+
 }

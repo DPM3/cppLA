@@ -1,6 +1,13 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
 #include<iostream>
+
+namespace matrix {
+template<int ROWS, int COLS> class Matrix;
+}
+
+namespace vector {
 using namespace std;
 
 template<int SIZE> class Vector {
@@ -23,6 +30,9 @@ public:
 	int size();
 
 	double length();
+
+	template<int ROWS, int COLS>
+	friend double& matrix::Matrix<ROWS, COLS>::operator() (int i, int j);
 };
 
 template<int SIZE>
@@ -46,5 +56,6 @@ typedef Vector<4> Vector4;
 //and then link it to other modules.
 //so whenever someone includes the Vector.h file, they are also including the Vector.cpp file,
 //so the Vector class will be compiled with it.
+}
 #include"Vector.cpp"
 #endif
