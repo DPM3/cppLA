@@ -154,7 +154,7 @@ Matrix<ROWS, COLS> operator*(double scalar, const Matrix<ROWS, COLS>& m) {
 }
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& operator*(const Matrix<ROWS, COLS>& m, double scalar) {
+Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& m, double scalar) {
 	return scalar * m;
 }
 
