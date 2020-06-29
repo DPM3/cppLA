@@ -1,6 +1,11 @@
 #ifndef MATRIX_H
 #define MATRIX_H
+
 #include"Vector.h"
+
+namespace matrix {
+using namespace vector;
+
 template<int ROWS, int COLS> class Matrix {
 	Vector<ROWS> vals[COLS];
 public:
@@ -43,7 +48,9 @@ public:
 	Vector<SIZE>& operator*=(const Vector<SIZE>& vec);
 
 	Vector<SIZE> operator[] (int i);
-	double operator() (int i, int j);
+	double& operator() (int i, int j) {
+		return vals[i].vals[j];
+	}
 
 	Matrix minor(int row, int col) /*throw (OutOfBoundsExpt)*/;
 	bool hasInv();
@@ -60,5 +67,10 @@ Matrix<ROWS, COLS>& operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, C
 
 template<int ROWS, int COLS>
 Matrix<ROWS, COLS>& operator*(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS>& operator*(const Matrix<ROWS, COLS>& mat, double scalar);
+
+}
 
 #endif
