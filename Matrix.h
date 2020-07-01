@@ -18,7 +18,7 @@ public:
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
 	template<int COLS2>
-		Matrix<ROWS, COLS2>& operator*=(const Matrix<COLS, COLS2>& mat);
+		Matrix<ROWS, COLS2> operator*(const Matrix<COLS, COLS2>& mat);
 	Matrix& operator*=(double scalar);
 	Vector<ROWS>& operator*=(const Vector<ROWS>& vec);
 
@@ -62,9 +62,6 @@ Matrix<ROWS, COLS> operator+(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, CO
 
 template<int ROWS, int COLS>
 Matrix<ROWS, COLS> operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
-
-template<int ROWS, int COLS>
-Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2);
 
 template<int ROWS, int COLS>
 Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& mat, double scalar);
