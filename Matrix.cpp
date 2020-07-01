@@ -53,6 +53,21 @@ Matrix<ROWS, COLS>& Matrix<ROWS, COLS>::operator*=(double scalar) {
 }
 
 template<int ROWS, int COLS>
+Vector<ROWS> Matrix<ROWS, COLS>::col (int index) {
+	return vals[index];
+}
+
+template<int ROWS, int COLS>
+Vector<ROWS> Matrix<ROWS, COLS>::operator[] (int index) {
+	return vals[index];
+}
+
+template<int ROWS, int COLS>
+double& Matrix<ROWS, COLS>::operator() (int i, int j) {
+	return vals[i][j];
+}
+
+template<int ROWS, int COLS>
 Matrix<ROWS - 1, COLS - 1> Matrix<ROWS, COLS>::minor(int row, int col) throw (OutOfBoundsExpt) {
 	if (ROWS == 1 || COLS == 1) {
 		throw OutOfBoundsExpt();

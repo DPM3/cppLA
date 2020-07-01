@@ -27,6 +27,9 @@ public:
 
 	Matrix<ROWS-1, COLS-1> minor(int row, int col) throw (OutOfBoundsExpt);
 	bool hasInv() { return false; }
+
+	Vector<ROWS> col(int index);
+	Vector<ROWS> row(int index);
 };
 
 //specialization for square matrices
