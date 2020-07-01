@@ -1,3 +1,5 @@
+#include "Matrix.h"
+
 namespace matrix {
 
 template<int ROWS, int COLS>
@@ -25,7 +27,19 @@ Matrix<ROWS, COLS>& Matrix<ROWS, COLS>::operator-=(const Matrix<ROWS, COLS>& mat
 }
 
 template<int ROWS, int COLS>
-Matrix<ROWS, COLS>& Matrix<ROWS, COLS>::operator*=(const Matrix<ROWS, COLS>& mat) {
+template<int COLS2>
+Matrix<ROWS, COLS2> Matrix<ROWS, COLS>::operator*(const Matrix<COLS, COLS2>& mat) {
+	Matrix<ROWS, COLS2> multmat = Matrix<ROWS, COLS2>();
+	for (int row = 0; row < ROWS; row++) {
+	for (int col = 0; col < COLS2; col++) {
+		int sum = 0;
+		for (int i = 0; i < COLS; i++) {
+			sum += operator(row, i) * mat(i, col);
+		}
+		multmat(row, col) = sum;
+	}
+	}
+	return multmat;
 }
 
 template<int ROWS, int COLS>
@@ -139,12 +153,6 @@ template<int ROWS, int COLS>
 Matrix<ROWS, COLS> operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2) {
 	Matrix<ROWS, COLS> result = m1;
 	return result-=m2;
-}
-
-template<int ROWS, int COLS>
-Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2) {
-	Matrix<ROWS, COLS> result = m1;
-	return result*=m2;
 }
 
 template<int ROWS, int COLS>
