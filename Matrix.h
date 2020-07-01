@@ -17,10 +17,10 @@ public:
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
-	template<int COLS2>
-		Matrix<ROWS, COLS2> operator*(const Matrix<COLS, COLS2>& mat);
 	Matrix& operator*=(double scalar);
 	Vector<ROWS>& operator*=(const Vector<ROWS>& vec);
+	template<int COLS2>
+		Matrix<ROWS, COLS2> operator*(const Matrix<COLS, COLS2>& mat);
 
 	Vector<ROWS>& operator[] (int i);
 	typename Vector<ROWS>::ElmtDouble operator() (int i, int j);
@@ -42,10 +42,10 @@ public:
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
-	template<int COLS2>
-		Matrix<SIZE, COLS2>& operator*=(const Matrix<SIZE, COLS2>& mat);
 	Matrix& operator*=(double scalar);
 	Vector<SIZE>& operator*=(const Vector<SIZE>& vec);
+	template<int COLS2>
+		Matrix<SIZE, COLS2>& operator*(const Matrix<SIZE, COLS2>& mat);
 
 	Vector<SIZE>& operator[] (int i);
 	typename Vector<SIZE>::ElmtDouble operator() (int i, int j);
