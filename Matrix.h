@@ -58,6 +58,9 @@ public:
 	double det();
 	Matrix adj();
 	Matrix inv();
+
+	Vector<ROWS> col(int index);
+	Vector<ROWS> row(int index);
 };
 
 template<int ROWS, int COLS>

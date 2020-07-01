@@ -1,5 +1,6 @@
 #include<iostream>
 #include"Vector.h"
+using namespace vector;
 
 int main() {
 	Vector3 vec3 = Vector3();
