@@ -12,13 +12,13 @@ public:
 	//exceptions:
 	class SizeExpt{ };
 	class OutOfBoundsExpt : public SizeExpt { };
-	class MultExpt : public SizeExpt { };
 
 	Matrix() throw (OutOfBoundsExpt);
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
-	Matrix& operator*=(const Matrix& mat);
+	template<int COLS2>
+		Matrix<ROWS, COLS2>& operator*=(const Matrix<COLS, COLS2>& mat);
 	Matrix& operator*=(double scalar);
 	Vector<ROWS>& operator*=(const Vector<ROWS>& vec);
 
@@ -36,14 +36,14 @@ public:
 	//exceptions:
 	class SizeExpt{ };
 	class OutOfBoundsExpt : public SizeExpt { };
-	class MultExpt : public SizeExpt { };
 
 	Matrix() throw (OutOfBoundsExpt);
 	Matrix(double scalar) throw (OutOfBoundsExpt);
 
 	Matrix& operator+=(const Matrix& mat);
 	Matrix& operator-=(const Matrix& mat);
-	Matrix& operator*=(const Matrix& mat);
+	template<int COLS2>
+		Matrix<SIZE, COLS2>& operator*=(const Matrix<SIZE, COLS2>& mat);
 	Matrix& operator*=(double scalar);
 	Vector<SIZE>& operator*=(const Vector<SIZE>& vec);
 
