@@ -107,6 +107,15 @@ Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar) {
 }
 
 template<int SIZE>
+double operator* (const Vector<SIZE>& v1, const Vector<SIZE>& v2) {
+	int result = 0;
+	for (int i = 0; i < SIZE; i++) {
+		result += v1[i] * v2[i];
+	}
+	return result;
+}
+
+template<int SIZE>
 double Vector<SIZE>::length() {
 	double squareSum = 0;
 	for (int i = 0; i < SIZE; i++) {

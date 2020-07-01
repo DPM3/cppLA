@@ -33,7 +33,8 @@ public:
 	double length();
 
 	template<int ROWS, int COLS>
-	friend double& matrix::Matrix<ROWS, COLS>::operator() (int i, int j);
+	friend ElmtDouble matrix::Matrix<ROWS, COLS>::operator() (int i, int j);
+	friend double operator*(const Vector& v1, const Vector& v2);
 };
 
 template<int SIZE>
@@ -47,6 +48,9 @@ Vector<SIZE> operator* (double scalar, Vector<SIZE> v);
 
 template<int SIZE>
 Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar);
+
+template<int SIZE>
+double operator* (const Vector<SIZE>& v1, const Vector<SIZE>& v2);
 
 //for convinience
 typedef Vector<2> Vector2;
