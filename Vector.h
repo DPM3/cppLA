@@ -4,6 +4,7 @@
 #include<cmath>
 
 namespace vector {
+using namespace std;
 //the inner implemetation details of the vector class
 template<int SIZE> class VectorImpl {
 public:
