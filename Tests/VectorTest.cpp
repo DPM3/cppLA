@@ -4,7 +4,7 @@ using namespace vector;
 
 int main() {
 	Vector3 v1 = Vector3();
-	cout << v1.size(); //should output 3
+	cout << v1.size() << endl; //should output 3
 	v1[0] = 30;
 	v1[1] = 20;
 	cout << v1[2] << endl; //should output 0

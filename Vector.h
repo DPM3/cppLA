@@ -13,7 +13,7 @@ private:
 		double elements[SIZE];
 	public:
 		//empty constructor
-		Data() { };
+		Data() = default;
 		//copy from array
 		Data(double const* elements) {
 			for (int i = 0; i < SIZE; i++)
@@ -21,6 +21,10 @@ private:
 		}
 		//get i'th element
 		double& operator[] (int i) {
+			return elements[i];
+		}
+		//get i'th element - for consts
+		double operator[] (int i) const {
 			return elements[i];
 		}
 		//namespace for arithmetic functions
@@ -85,17 +89,21 @@ public:
 		return *this;
 	}
 	//Returns the dot product of this and v
-	double operator* (Vector const& v) {
-		return Data::Arit::dotProd(this->.data, v.data);
+	double operator* (Vector const& v) const {
+		return Data::Arit::dotProd(this->data, v.data);
 	}
 
 	//Returns the element of data of this index
 	double& operator[] (int index) {
 		return data[index];
 	}
+	//Returns the element of data of this index
+	double operator[] (int index) const {
+		return data[index];
+	}
 	//Returns the standard norm
 	double len() {
-		return Data::Arit::norm(this->data, this->data);
+		return Data::Arit::norm(this->data);
 	}
 	//Returns SIZE
 	int size() {
@@ -122,7 +130,7 @@ Vector<SIZE> operator* (double scalar, Vector<SIZE> v) {
 }
 //Returns the product of the vector and scalar
 template<int SIZE>
-Vector<SIZE> operator* (const Vector<SIZE>& v, double scalar) {
+Vector<SIZE> operator* (Vector<SIZE> v, double scalar) {
 	return v *= scalar;
 }
 //Returns the division of the vector and scalar
@@ -132,7 +140,7 @@ Vector<SIZE> operator/ (double scalar, Vector<SIZE> v) {
 }
 //Returns the division of the vector and scalar
 template<int SIZE>
-Vector<SIZE> operator/ (const Vector<SIZE>& v, double scalar) {
+Vector<SIZE> operator/ (Vector<SIZE> v, double scalar) {
 	return v /= scalar;
 }
 
