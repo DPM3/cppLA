@@ -96,13 +96,13 @@ public:
 		return Data::Arit::dotProd(this->.data, v.data);
 	}
 
-	//Returns the standard norm
-	double len() {
-		return Data::Arit::norm(this->data, this->data);
-	}
 	//Returns the element of data of this index
 	double& operator[] (int index) {
 		return data[index];
+	}
+	//Returns the standard norm
+	double len() {
+		return Data::Arit::norm(this->data, this->data);
 	}
 	//Returns SIZE
 	int size() {
@@ -141,6 +141,16 @@ Vector<SIZE> operator/ (double scalar, Vector<SIZE> v) {
 template<int SIZE>
 Vector<SIZE> operator/ (const Vector<SIZE>& v, double scalar) {
 	return v /= scalar;
+}
+
+//operator<< for printing with cout
+template<int SIZE>
+ostream& operator<< (ostream& os, Vector<SIZE> const& v) {
+	os << v[0];
+	for (int i = 1; i < SIZE; i++) {
+		os << ", " << v[i];
+	}
+	return os;
 }
 
 //for convinience
