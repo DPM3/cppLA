@@ -5,11 +5,9 @@
 
 namespace vector {
 using namespace std;
-//the inner implemetation details of the vector class
+//A vector class
 template<int SIZE> class VectorImpl {
-protected:
-	VectorImpl() : data() { }
-	VectorImpl(double const* data) : data(data) { }
+private:
 	//the data of the vector
 	class Data {
 		double elements[SIZE];
@@ -60,16 +58,11 @@ protected:
 				return sqrt(dotProd(a, a));
 			}
 		};
-	};
-	Data data;
-};
-
-//A vector class with a full interface
-template<int SIZE> class Vector : public VectorImpl<SIZE> {
+	} data;
 public:
-	Vector() : VectorImpl<SIZE>() { }
+	Vector() : data() { }
 	//Copy the first SIZE elements of the array into this vector
-	Vector(double const& data) : VectorImpl<SIZE>(data) { }
+	Vector(double const* data) : data(data) { }
 
 	//Adds other to this
 	Vector<SIZE>& operator+= (const Vector<SIZE>& other) {
@@ -108,6 +101,10 @@ public:
 	int size() {
 		return SIZE;
 	}
+};
+
+//A vector class with a full interface
+template<int SIZE> class Vector : private VectorImpl<SIZE> {
 };
 
 //Returns the sum of 2 vectors
