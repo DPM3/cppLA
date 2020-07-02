@@ -32,29 +32,19 @@ private:
 			// add two vectors
 			static Data add(Data const& a, Data const& b) {
 				Data result;
-				for (int i = 0; i < SIZE; i++)
-					result[i] = a[i] + b[i];
-				return result;
-			}
-			//subtract two vectors
-			static Data subtract(Data const& a, Data const& b) {
-				Data result;
-				for (int i = 0; i < SIZE; i++)
-					result[i] = a[i] - b[i];
+				for (int i = 0; i < SIZE; i++) result[i] = a[i] + b[i];
 				return result;
 			}
 			//multiply vector by scalar. Also used for negation
 			static Data scale(Data const& a, double s) {
 				Data result;
-				for (int i = 0; i < SIZE; i++)
-					result[i] = a[i] * s;
+				for (int i = 0; i < SIZE; i++) result[i] = a[i] * s;
 				return result;
 			}
 			//dot product of two vectors
 			static double dotProd(Data const& a, Data const& b) {
 				double result=0;
-				for (int i = 0; i < SIZE; i++)
-					result += a[i] * b[i];
+				for (int i = 0; i < SIZE; i++) result += a[i] * b[i];
 				return result;
 			}
 			//standard norm
@@ -63,6 +53,7 @@ private:
 			}
 		};
 	} data;
+	typedef typename Data::Arit arit;
 public:
 	Vector() : data() { }
 	//Copy the first SIZE elements of the array into this vector
@@ -70,27 +61,27 @@ public:
 
 	//Adds other to this
 	Vector<SIZE>& operator+= (Vector const& other) {
-		data = Data::Arit::add(this->data, other.data);
+		data = arit::add(this->data, other.data);
 		return *this;
 	}
 	//Subtracts other from this
 	Vector<SIZE>& operator-= (Vector const& other) {
-		data = Data::Arit::subtract(this->data, other.data);
+		data = arit::add(this->data, arit::scale(other.data, -1));
 		return *this;
 	}
 	//Multiplies by scalar
 	Vector<SIZE>& operator*= (double d) {
-		data = Data::Arit::scale(this->data, d);
+		data = arit::scale(this->data, d);
 		return *this;
 	}
 	//Divides by scaler
 	Vector<SIZE>& operator/= (double d) {
-		data = Data::Arit::scale(this->data, 1/d);
+		data = arit::scale(this->data, 1/d);
 		return *this;
 	}
 	//Returns the dot product of this and v
 	double operator* (Vector const& v) const {
-		return Data::Arit::dotProd(this->data, v.data);
+		return arit::dotProd(this->data, v.data);
 	}
 
 	//Returns the element of data of this index
@@ -103,25 +94,21 @@ public:
 	}
 	//Returns the standard norm
 	double len() {
-		return Data::Arit::norm(this->data);
+		return arit::norm(this->data);
 	}
 	//Returns SIZE
-	int size() {
-		return SIZE;
-	}
+	int size() { return SIZE; }
 };
 
 //Returns the sum of 2 vectors
 template<int SIZE>
-Vector<SIZE> operator+ (Vector<SIZE> v1, const Vector<SIZE>& v2) {
-	v1 += v2;
-	return v1;
+Vector<SIZE> operator+ (Vector<SIZE> v1, Vector<SIZE> const& v2) {
+	return v1+=v2;
 }
 //Returns the difference of 2 vectors
 template<int SIZE>
-Vector<SIZE> operator- (Vector<SIZE> v1, const Vector<SIZE>& v2) {
-	v1 -= v2;
-	return v1;
+Vector<SIZE> operator- (Vector<SIZE> v1, Vector<SIZE> const& v2) {
+	return v1-=v2;
 }
 //Returns the product of the vector and scalar
 template<int SIZE>
