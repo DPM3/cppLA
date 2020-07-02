@@ -26,6 +26,7 @@ private:
 		double operator[] (int i) const {
 			return elements[i];
 		}
+		//run func for each element. func should be able to get double(or double&) and int.
 		template<class FUNC> void foreach(FUNC func) {
 			for (int i = 0; i < SIZE; i++)
 				func(elements[i], i);
