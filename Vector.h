@@ -12,7 +12,6 @@ private:
 	mutable class Data {
 		double elements[SIZE];
 	public:
-		//empty constructor
 		Data() = default;
 		//copy from array
 		Data(double const* elements) {
@@ -34,8 +33,8 @@ private:
 	} data;
 
 public:
-	Vector() : data() { }
 	//Copy the first SIZE elements of the array into this vector
+	Vector() = default;
 	Vector(double const* data) : data(data) { }
 
 	//Adds other to this
