@@ -1,7 +1,7 @@
-VectorTest.o: VectorTest.cpp Vector.h Vector.cpp
+VectorTest: VectorTest.cpp Vector.h Vector.cpp
 	g++ -Wno-deprecated VectorTest.cpp
-Matrix.o: Matrix.h Vector.h Vector.cpp
-	g++ -Wno-deprecated Matrix.h
+MatrixTest: MatrixTest.cpp Matrix.h Matrix.cpp
+	g++ -Wno-deprecated MatrixTest.cpp
 clean:
 	rm *.o
 	rm a.*
