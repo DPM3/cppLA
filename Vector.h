@@ -1,5 +1,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
+
+#include<cmath>
+
 namespace vector {
 //the inner implemetation details of the vector class
 template<int SIZE> class VectorImpl {
@@ -52,40 +55,58 @@ protected:
 					result += a[i] * b[i];
 				return result;
 			}
+			//standard norm
+			static double norm(Data const& a) {
+				return sqrt(dotProd(a, a));
+			}
 		};
 	} data;
 };
 
+//A vector class with a full interface
 template<int SIZE> class Vector : private VectorImpl<SIZE> {
 public:
 	Vector() : VectorImpl() { }
+	//Copy the first SIZE elements of the array into this vector
 	Vector(double const& data) : VectorImpl(data) { }
 
+	//Adds other to this
 	Vector<SIZE>& operator+= (const Vector<SIZE>& other) {
 		data = Data::Arith::add(this->data, other.data);
 		return *this;
 	}
+	//Subtracts other from this
 	Vector<SIZE>& operator-= (const Vector<SIZE>& other) {
 		data = Data::Arith::subtract(this->data, other.data);
 		return *this;
 	}
+	//Multiplies by scalar
 	Vector<SIZE>& operator*= (double d) {
 		data = Data::Arith::scale(this->data, d);
 		return *this;
 	}
+	//Divides by scaler
 	Vector<SIZE>& operator/= (double d) {
 		data = Data::Arith::scale(this->data, 1/d);
 		return *this;
 	}
-	double operator* (Vector const& a, Vector const& b) {
-		return Data::Arith::dotProd(a.data, b.data);
+	//Returns the dot product of this and v
+	double operator* (Vector const& v) {
+		return Data::Arith::dotProd(this->.data, v.data);
 	}
 
-	ElmtDouble operator[] (int index);
-	
-	int size();
-
-	double length();
+	//Returns the standard norm
+	double length() {
+		return Data::Arith::norm(this->data, this->data);
+	}
+	//Returns the element of data of this index
+	double& operator[] (int index) {
+		return data[index];
+	}
+	//Returns SIZE
+	int size() {
+		return SIZE;
+	}
 };
 
 //Returns the sum of 2 vectors
