@@ -9,7 +9,7 @@ using namespace std;
 //A vector class with a full interface
 template<int SIZE> class Vector {
 private:
-	class Data {
+	mutable class Data {
 		double elements[SIZE];
 	public:
 		//empty constructor
@@ -63,7 +63,7 @@ public:
 	//Returns the dot product of this and v
 	double operator* (Vector const& v) const {
 		double result = 0;
-		auto func = [&v, &result](double& element, int idx) { result += element * v[idx]; };
+		auto func = [&v, &result](double element, int idx) { result += element * v[idx]; };
 		data.foreach(func);
 		return result;
 	}
