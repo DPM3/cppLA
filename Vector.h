@@ -27,7 +27,7 @@ protected:
 			return elements[i];
 		}
 		//namespace for arithmetic functions
-		struct Arith {
+		struct Arit {
 			// add two vectors
 			static Data add(Data const& a, Data const& b) {
 				Data result;
@@ -73,32 +73,32 @@ public:
 
 	//Adds other to this
 	Vector<SIZE>& operator+= (const Vector<SIZE>& other) {
-		data = Data::Arith::add(this->data, other.data);
+		data = Data::Arit::add(this->data, other.data);
 		return *this;
 	}
 	//Subtracts other from this
 	Vector<SIZE>& operator-= (const Vector<SIZE>& other) {
-		data = Data::Arith::subtract(this->data, other.data);
+		data = Data::Arit::subtract(this->data, other.data);
 		return *this;
 	}
 	//Multiplies by scalar
 	Vector<SIZE>& operator*= (double d) {
-		data = Data::Arith::scale(this->data, d);
+		data = Data::Arit::scale(this->data, d);
 		return *this;
 	}
 	//Divides by scaler
 	Vector<SIZE>& operator/= (double d) {
-		data = Data::Arith::scale(this->data, 1/d);
+		data = Data::Arit::scale(this->data, 1/d);
 		return *this;
 	}
 	//Returns the dot product of this and v
 	double operator* (Vector const& v) {
-		return Data::Arith::dotProd(this->.data, v.data);
+		return Data::Arit::dotProd(this->.data, v.data);
 	}
 
 	//Returns the standard norm
-	double length() {
-		return Data::Arith::norm(this->data, this->data);
+	double len() {
+		return Data::Arit::norm(this->data, this->data);
 	}
 	//Returns the element of data of this index
 	double& operator[] (int index) {
