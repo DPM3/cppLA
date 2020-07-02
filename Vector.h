@@ -27,33 +27,12 @@ private:
 		double operator[] (int i) const {
 			return elements[i];
 		}
-		//namespace for arithmetic functions
-		struct Arit {
-			// add two vectors
-			static Data add(Data const& a, Data const& b) {
-				Data result;
-				for (int i = 0; i < SIZE; i++) result[i] = a[i] + b[i];
-				return result;
-			}
-			//multiply vector by scalar. Also used for negation
-			static Data scale(Data const& a, double s) {
-				Data result;
-				for (int i = 0; i < SIZE; i++) result[i] = a[i] * s;
-				return result;
-			}
-			//dot product of two vectors
-			static double dotProd(Data const& a, Data const& b) {
-				double result=0;
-				for (int i = 0; i < SIZE; i++) result += a[i] * b[i];
-				return result;
-			}
-			//standard norm
-			static double norm(Data const& a) {
-				return sqrt(dotProd(a, a));
-			}
-		};
+		template<class FUNC> void foreach(FUNC func) {
+			for (int i = 0; i < SIZE; i++)
+				func(elements[i], i);
+		}
 	} data;
-	typedef typename Data::Arit arit;
+
 public:
 	Vector() : data() { }
 	//Copy the first SIZE elements of the array into this vector
@@ -61,27 +40,32 @@ public:
 
 	//Adds other to this
 	Vector<SIZE>& operator+= (Vector const& other) {
-		data = arit::add(this->data, other.data);
+		auto func = [&other](double& element, int idx) { element += other[idx]; };
+		data.foreach(func);
 		return *this;
 	}
 	//Subtracts other from this
 	Vector<SIZE>& operator-= (Vector const& other) {
-		data = arit::add(this->data, arit::scale(other.data, -1));
+		auto func = [&other](double& element, int idx) { element -= other[idx]; };
+		data.foreach(func);
 		return *this;
 	}
 	//Multiplies by scalar
 	Vector<SIZE>& operator*= (double d) {
-		data = arit::scale(this->data, d);
+		auto func = [&d](double& element, int idx) { element *= d; };
+		data.foreach(func);
 		return *this;
 	}
 	//Divides by scaler
 	Vector<SIZE>& operator/= (double d) {
-		data = arit::scale(this->data, 1/d);
-		return *this;
+		return operator*=(1.0/d);
 	}
 	//Returns the dot product of this and v
 	double operator* (Vector const& v) const {
-		return arit::dotProd(this->data, v.data);
+		double result = 0;
+		auto func = [&v, &result](double& element, int idx) { result += element * v[idx]; };
+		data.foreach(func);
+		return result;
 	}
 
 	//Returns the element of data of this index
@@ -94,7 +78,7 @@ public:
 	}
 	//Returns the standard norm
 	double len() {
-		return arit::norm(this->data);
+		return sqrt(*this * *this);
 	}
 	//Returns SIZE
 	int size() { return SIZE; }
