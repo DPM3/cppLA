@@ -83,6 +83,9 @@ protected:
 public:
 	//NOTE: the following functions are meant to be an interface for Matrix.
 	//This is all done for code sharing between Matrix<ROWS, COLS> and Matrix<SIZE, SIZE>(specialization).
+	operator Mat() {
+		return (Mat)(*this);
+	}
 
 	//Adds mat to this
 	Mat& operator+=(Mat const& mat) {
@@ -130,16 +133,31 @@ public:
 	double& operator() (int i, int j) {
 		return data(i,j);
 	}
+	double operator() (int i, int j) const {
+		return data(i,j);
+	}
 
-	auto row(int row) const {
-		auto func = [this, &row] (int j) {
-			return *this(row, j);
+	auto row(int row) {
+		auto func = [this, &row] (int j) -> double& {
+			return (this->operator()(row, j));
 		};
 		return IntfVec<COLS, decltype(func)> (func);
 	}
+	Vector<COLS> row(int row) const {
+		auto func = [this, &row] (int j) -> double& {
+			return *this(row, j);
+		};
+		return IntfVec<COLS, decltype(func)>(func);
+	}
 
-	auto col(int col) const {
-		auto func = [this, &col] (int i) {
+	auto col(int col) {
+		auto func = [this, &col] (int i) -> double& {
+			return *this(i, col);
+		};
+		return IntfVec<ROWS, decltype(func)> (func);
+	}
+	Vector<COLS> col(int col) const {
+		auto func = [this, &col] (int i) -> double& {
 			return *this(i, col);
 		};
 		return IntfVec<ROWS, decltype(func)> (func);
