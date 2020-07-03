@@ -44,20 +44,23 @@ public:
 	Vector(double*const data, bool isByRef = false) : data(data, isByRef) { }
 
 	//Adds other to this
-	Vector<SIZE>& operator+= (Vector const& other) {
+	Vector& operator+= (Vector const& other) {
 		auto func = [&other](double& element, int idx) { element += other[idx]; };
 		data.foreach(func);
 		return *this;
 	}
 	//Subtracts other from this
-	Vector<SIZE>& operator-= (Vector const& other) {
+	Vector& operator-= (Vector const& other) {
 		auto func = [&other](double& element, int idx) { element -= other[idx]; };
 		data.foreach(func);
 		return *this;
 	}
+	Vector operator-() {
+		return -1 * *this;
+	}
 	//Multiplies by scalar
 	Vector<SIZE>& operator*= (double d) {
-		auto func = [&d](double& element, int idx) { element *= d; };
+		auto func = [&d](double& element, int) { element *= d; };
 		data.foreach(func);
 		return *this;
 	}

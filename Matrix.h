@@ -45,34 +45,70 @@ protected:
 		}
 	} data;
 
+	template<int SIZE, class GETTER>
+	class IntfVec {
+		GETTER getElmt;
+	public:
+		IntfVec(GETTER getElmt) : getElmt(getElmt) { }
+		operator Vector<SIZE> () {
+			Vector<SIZE> result;
+			for (int i = 0; i < SIZE; i++)
+				result[i] = getElmt(i);
+			return result;
+		}
+		IntfVec& operator=(Vector<SIZE> vec) {
+			for (int i = 0; i < SIZE; i++)
+				getElmt(i) = vec[i];
+			return *this;
+		}
+		IntfVec& operator+=(Vector<SIZE> vec) {
+			for (int i = 0; i < SIZE; i++)
+				getElmt(i) += vec[i];
+			return *this;
+		}
+		IntfVec& operator-=(Vector<SIZE> vec) {
+			return operator+=(-vec);
+		}
+		IntfVec& operator*=(double s) {
+			for (int i = 0; i < SIZE; i++)
+				getElmt(i) *= s;
+			return *this;
+		}
+		IntfVec& operator/=(double s) {
+			return operator*=(1.0/s);
+		}
+	};
+
+	typedef Matrix<ROWS, COLS> Mat;
 public:
-	//NOTE: the following functions are meant to be an interface for Matrix,
-	//so we have this implicit conversion function to make this process seamless.
+	//NOTE: the following functions are meant to be an interface for Matrix.
 	//This is all done for code sharing between Matrix<ROWS, COLS> and Matrix<SIZE, SIZE>(specialization).
-	operator Matrix<ROWS, COLS>() {
-		return dynamic_cast<Matrix<ROWS, COLS>> (*this);
-	}
+
 	//Adds mat to this
-	MatBase& operator+=(MatBase const& mat) {
+	Mat& operator+=(Mat const& mat) {
 		data.foreach( [&mat] (double& element, int i, int j) {
 			element += mat(i, j);
 		});
 		return *this;
 	}
 	//Subtracts mat from this
-	MatBase& operator-=(MatBase const& mat) {
+	Mat& operator-=(Mat const& mat) {
 		data.foreach( [&mat] (double& element, int i, int j) {
 			element -= mat(i, j);
 		});
 		return *this;
 	}
 	//Multiplying a scalar
-	MatBase& operator*=(double d) {
+	Mat& operator*=(double d) {
 		data.foreach( [&d] (double& element, int i, int j) {
 			element *= d;
 		});
 		return *this;
 	}
+	Mat& operator/=(double d) {
+		return *this *= 1.0/d;
+	}
+
 	//Multiplying a vector
 	Vector<ROWS> operator*(Vector<COLS> const& vec) const {
 		Vector<ROWS> result;
@@ -87,7 +123,7 @@ public:
 		Matrix<ROWS, COLS2> result;
 		//multiply by the formula (AB)i,j = R_i(A) * C_j(B)
 		result.data.foreach( [&mat, this] (double& element, int i, int j) {
-			element = this->getRow(i) * mat.getCol(j);
+			element = this->row(i) * mat.col(j);
 		});
 		return result;
 	}
@@ -95,30 +131,18 @@ public:
 		return data(i,j);
 	}
 
-	Vector<COLS> getRow(int row) const {
-		Vector<COLS> vec;
-		data.foreachRow(row, [&vec, &row] (double const& element, int j) {
-			vec[j] = element;
-		});
-		return vec;
-	}
-	void setRow(int row, Vector<COLS> vec) {
-		data.foreachRow(row, [&vec, &row] (double& element, int j) {
-			element = vec[j];
-		});
+	auto row(int row) const {
+		auto func = [this, &row] (int j) {
+			return *this(row, j);
+		};
+		return IntfVec<COLS, decltype(func)> (func);
 	}
 
-	Vector<COLS> getCol(int col) const {
-		Vector<COLS> vec;
-		data.foreachCol(col, [&vec, &col] (double const& element, int i) {
-			vec[i] = element;
-		});
-		return vec;
-	}
-	void setCol(int col, Vector<COLS> vec) {
-		data.foreachCol(col, [&vec, &col] (double& element, int i) {
-			element = vec[i];
-		});
+	auto col(int col) const {
+		auto func = [this, &col] (int i) {
+			return *this(i, col);
+		};
+		return IntfVec<ROWS, decltype(func)> (func);
 	}
 
 
@@ -152,6 +176,12 @@ public:
 template<int SIZE> class Matrix<SIZE, SIZE> : public MatBase<SIZE, SIZE> {
 	typedef MatBase<SIZE,SIZE> Base;
 public:
+	Matrix() = default;
+	Matrix(double s) : Base() {
+		Base::data.foreach( [&s] (double& element, int i, int j) {
+			element = i==j? 1 : 0;
+		});
+	}
 	double det() const {
 		if (SIZE == 1)
 			return *this(0, 0);
@@ -194,15 +224,26 @@ public:
 		return adjoint;
 	}
 };
-class ElmntryOp{
-template<int ROWS, int COLS>
-void swap(Matrix<ROWS, COLS>& mat, int row1, int row2);
+
+namespace ElmntryOp{
 
 template<int ROWS, int COLS>
-void scale(Matrix<ROWS, COLS>& mat, int row1, int s);
+void swap(Matrix<ROWS, COLS>& mat, int row1, int row2) {
+	Vector<COLS> row = mat.row(row2);
+	mat.row(row2) =  mat.row(row1);
+	mat.row(row1) = row;
+}
 
 template<int ROWS, int COLS>
-void add(Matrix<ROWS, COLS>& mat, int row1, int row2, int mult);
+void scale(Matrix<ROWS, COLS>& mat, int row1, int s) {
+	mat.row(row1) *= s;
+}
+
+template<int ROWS, int COLS>
+void add(Matrix<ROWS, COLS>& mat, int row1, int row2, int mult) {
+	mat.row(row2) += mat.row(row1) * mult;
+}
+
 }
 
 }
