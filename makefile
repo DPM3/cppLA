@@ -1,5 +1,7 @@
 VectorTest: Tests/VectorTest.cpp Vector.h 
-	g++ -Wno-deprecated Tests/VectorTest.cpp
+	g++ Tests/VectorTest.cpp
+Matrix: Matrix.h
+	g++ -std=c++17 Matrix.h
 clean:
 	rm *.o
 	rm a.*
