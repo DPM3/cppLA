@@ -33,22 +33,6 @@ protected:
 			for (int j = 0; j < COLS; j++)
 				func(elems[i][j], i, j);
 		}
-		class RowIter {
-			int row, j;
-		public:
-			RowIter(int row) : row(row), j(0) { }
-
-			double& operator*() {
-				return elems[row][j];
-			}
-			RowIter& operator++(int) {
-				j++;
-				return *this;
-			}
-			RowIter& operator++() {
-				return *this++;
-			}
-		};
 	} data;
 public:
 	//NOTE: the following functions are meant to be an interface for Matrix,
@@ -59,29 +43,43 @@ public:
 	}
 	//Adds mat to this
 	MatBase& operator+=(MatBase const& mat) {
-		auto func = [&mat](double& element, int i, int j) { element += mat(i, j); };
-		data.foreach(func);
+		data.foreach( [&mat] (double& element, int i, int j) {
+			element += mat(i, j);
+		});
 		return *this;
 	}
 	//Subtracts mat from this
 	MatBase& operator-=(MatBase const& mat) {
-		auto func = [&mat](double& element, int i, int j) { element -= mat(i, j); };
-		data.foreach(func);
+		data.foreach( [&mat] (double& element, int i, int j) {
+			element -= mat(i, j);
+		});
 		return *this;
 	}
 	//Multiplying a scalar
 	MatBase& operator*=(double d) {
-		auto func = [&d](double& element, int i, int j) { element *= d; };
-		data.foreach(func);
+		data.foreach( [&d] (double& element, int i, int j) {
+			element *= d;
+		});
 		return *this;
 	}
 	//Multiplying a vector
-	Vector<ROWS> operator*(Vector<ROWS> const& vec);
+	Vector<ROWS> operator*(Vector<COLS> const& vec) {
+		Vector<ROWS> result;
+		data.foreach( [&result, &vec] (double const& element, int i, int j) {
+			result[i] += element * vec[j];
+		});
+		return result;
+	}
 	//Multiplying a matrix
 	template<int COLS2>
-	Matrix<ROWS, COLS2> operator*(const Matrix<COLS, COLS2>& mat) {
-		
+	Matrix<ROWS, COLS2> operator*(Matrix<COLS, COLS2> const& mat) {
+		Matrix<ROWS, COLS2> result;
+		result.data.foreach( [&mat, this] (double& element, int i, int j) {
+			element = this->row(i) * mat.col(j);
+		});
+		return result;
 	}
+
 	double& operator() (int i, int j) {
 		return data(i,j);
 	}
