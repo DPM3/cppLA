@@ -246,6 +246,49 @@ void add(Matrix<ROWS, COLS>& mat, int row1, int row2, int mult) {
 
 }
 
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator+(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2) {
+	Matrix<ROWS, COLS> result = m1;
+	return result+=m2;
+}
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator-(const Matrix<ROWS, COLS>& m1, const Matrix<ROWS, COLS>& m2) {
+	Matrix<ROWS, COLS> result = m1;
+	return result-=m2;
+}
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator*(double scalar, const Matrix<ROWS, COLS>& m) {
+	Matrix<ROWS, COLS> m2 = m;
+	return m2*=scalar;
+}
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator*(const Matrix<ROWS, COLS>& m, double scalar) {
+	return scalar * m;
+}
+
+template<int ROWS, int COLS>
+Matrix<ROWS, COLS> operator/(double scalar, const Matrix<ROWS, COLS>& m) {
+	Matrix<ROWS, COLS> m2 = m;
+	return m2/=scalar;
+}
+
+//operator<< for printing with cout
+template<int ROWS, int COLS>
+ostream& operator<< (ostream& os, Matrix<ROWS, COLS> const& mat) {
+	os << "[";
+	for (int i = 0; i < ROWS; i++) {
+		os << "[";
+		for (int j = 0; j < COLS; j++)
+			os << ", " << mat(i, j);
+		os << "]";
+	}
+	os << "]";
+	return os;
+}
+
 }
 
 #endif
