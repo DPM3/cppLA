@@ -1,6 +1,7 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include<iostream>
 #include<cmath>
 
 namespace vector {
@@ -10,11 +11,15 @@ using namespace std;
 template<int SIZE> class Vector {
 private:
 	mutable class Data {
-		double elements[SIZE];
+		double arr[SIZE];
+		double* elements = arr;
 	public:
 		Data() = default;
 		//copy from array
-		Data(double const* elements) {
+		Data(double*const elements, bool isByRef) {
+			if (isByRef) {
+				this->elements = elements;
+			}
 			for (int i = 0; i < SIZE; i++)
 				this->elements[i] = elements[i];
 		}
@@ -36,7 +41,7 @@ private:
 public:
 	//Copy the first SIZE elements of the array into this vector
 	Vector() = default;
-	Vector(double const* data) : data(data) { }
+	Vector(double*const data, bool isByRef = false) : data(data, isByRef) { }
 
 	//Adds other to this
 	Vector<SIZE>& operator+= (Vector const& other) {
