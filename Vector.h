@@ -68,13 +68,9 @@ public:
 	Vector<SIZE>& operator/= (double d) {
 		return operator*=(1.0/d);
 	}
+	template<int S>
+	friend double operator* (Vector<S> const& v1, Vector<S> const& v2);
 	//Returns the dot product of this and v
-	double operator* (Vector const& v) const {
-		double result = 0;
-		auto func = [&v, &result](double element, int idx) { result += element * v[idx]; };
-		data.foreach(func);
-		return result;
-	}
 
 	//Returns the element of data of this index
 	double& operator[] (int index) {
@@ -101,6 +97,14 @@ Vector<SIZE> operator+ (Vector<SIZE> v1, Vector<SIZE> const& v2) {
 template<int SIZE>
 Vector<SIZE> operator- (Vector<SIZE> v1, Vector<SIZE> const& v2) {
 	return v1-=v2;
+}
+//dot product
+template<int S>
+double operator* (Vector<S> const& v1, Vector<S> const& v2) {
+	double result = 0;
+	auto func = [&v2, &result](double element, int idx) { result += element * v2[idx]; };
+	v1.data.foreach(func);
+	return result;
 }
 //Returns the product of the vector and scalar
 template<int SIZE>
