@@ -59,19 +59,20 @@ public:
 //get a copy of col as Vector;
 	Vector<ROWS> col(int j) const;
 
+//basic addition:
+	Matrix& operator+= (Matrix const& mat);
+	Matrix& operator-= (Matrix const& mat);
+
+//basic scaling:
+	Matrix& operator*= (double scalar);
+	Matrix& operator/= (double scalar);
 };
 
 //basic addition:
-TEMPL_R_C MAT_R_C& operator+= (MAT_R_C& mat1, MAT_R_C const& mat2);
-TEMPL_R_C MAT_R_C& operator-= (MAT_R_C& mat1, MAT_R_C const& mat2);
-
 TEMPL_R_C MAT_R_C operator+ (MAT_R_C const& mat1, MAT_R_C const& mat2);
 TEMPL_R_C MAT_R_C operator- (MAT_R_C const& mat1, MAT_R_C const& mat2);
 
 //basic scaling:
-TEMPL_R_C MAT_R_C& operator*= (MAT_R_C& mat, double scalar);
-TEMPL_R_C MAT_R_C& operator/= (MAT_R_C& mat, double scalar);
-
 TEMPL_R_C MAT_R_C operator* (MAT_R_C const& mat, double scalar);
 TEMPL_R_C MAT_R_C operator/ (MAT_R_C const& mat, double scalar);
 
