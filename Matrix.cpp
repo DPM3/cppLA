@@ -134,6 +134,60 @@ MAT_R_C& MAT_R_C::operator/= (double scalar) {
 
 //////////-- End of Matrix --//////////
 
+TEMPL_R_C
+MAT_R_C operator+ (MAT_R_C mat1, MAT_R_C const& mat2) {
+	return mat1 += mat2;
+}
+
+TEMPL_R_C
+MAT_R_C operator- (MAT_R_C mat1, MAT_R_C const& mat2) {
+	return mat1 -= mat2;
+}
+
+TEMPL_R_C
+MAT_R_C operator* (MAT_R_C mat, double scalar) {
+	return mat *= scalar;
+}
+
+TEMPL_R_C
+MAT_R_C operator/ (MAT_R_C mat, double scalar) {
+	return mat /= scalar;
+}
+
+template<int ROWS, int COLS, int COLS2>
+Matrix<ROWS, COLS2> operator* (MAT_R_C const& mat1, Matrix<COLS, COLS2> const& mat2) {
+	Matrix<ROWS, COLS2> result;
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS2; j++)
+		result(i,j) = mat1.row(i) * mat2.col(j);
+	return result;
+}
+
+TEMPL_R_C
+Vector<ROWS> operator* (MAT_R_C const& mat, Vector<COLS> const& vec) {
+	Vector<ROWS> result;
+	for (int i = 0; i < ROWS; i++)
+		result[i] = mat.row(i) * vec;
+	return result;
+}
+
+TEMPL_R_C
+Matrix<ROWS-1, COLS-1> minor(MAT_R_C const& mat, int row, int col) {
+	Matrix<ROWS-1, COLS-1> result;
+	for (int i = 0; i < ROWS-1, i++)
+	for (int j = 0; j < COLS-1; j++)
+		result(i,j) = mat(i<row ? i : i+1, j<col ? j : j+1);
+	return result;
+}
+
+TEMPL_R_C
+MAT_R_C trans(MAT_R_C const& mat) {
+	MAT_R_C result;
+	for (int i = 0; i < ROWS-1, i++)
+	for (int j = 0; j < COLS-1; j++)
+		result(i,j) = mat(j,i);
+	return result;
+}
 
 }//namespace matrix//
 

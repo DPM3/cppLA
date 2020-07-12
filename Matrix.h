@@ -69,12 +69,12 @@ public:
 };
 
 //basic addition:
-TEMPL_R_C MAT_R_C operator+ (MAT_R_C const& mat1, MAT_R_C const& mat2);
-TEMPL_R_C MAT_R_C operator- (MAT_R_C const& mat1, MAT_R_C const& mat2);
+TEMPL_R_C MAT_R_C operator+ (MAT_R_C mat1, MAT_R_C const& mat2);
+TEMPL_R_C MAT_R_C operator- (MAT_R_C mat1, MAT_R_C const& mat2);
 
 //basic scaling:
-TEMPL_R_C MAT_R_C operator* (MAT_R_C const& mat, double scalar);
-TEMPL_R_C MAT_R_C operator/ (MAT_R_C const& mat, double scalar);
+TEMPL_R_C MAT_R_C operator* (MAT_R_C mat, double scalar);
+TEMPL_R_C MAT_R_C operator/ (MAT_R_C mat, double scalar);
 
 //mat x mat multiplication:
 template<int ROWS, int COLS, int COLS2>
@@ -84,16 +84,19 @@ Matrix<ROWS, COLS2> operator* (MAT_R_C const& mat1, Matrix<COLS, COLS2> const& m
 TEMPL_R_C Vector<ROWS> operator* (MAT_R_C const& mat, Vector<COLS> const& vec);
 
 //minor:
-TEMPL_R_C Matrix<ROWS-1, COLS-1> minor(MAT_R_C const& mat);
+TEMPL_R_C Matrix<ROWS-1, COLS-1> minor(MAT_R_C const& mat, int row, int col);
 
 //transpose:
-TEMPL_R_C Matrix<COLS, ROWS> trans(MAT_R_C const& mat);
+TEMPL_R_C MAT_R_C trans(MAT_R_C const& mat);
 
 //determinant (only for square matrices):
 TEMPL_S double det(MAT_S const& mat);
 
 //adjoint (only for square matrices):
 TEMPL_S MAT_S adj(MAT_S const& mat);
+
+//inverse (only for square matrices):
+TEMPL_S MAT_S inv(MAT_S const& mat);
 
 }//namespace matrix//
 
