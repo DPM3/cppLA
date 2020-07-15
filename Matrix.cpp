@@ -104,32 +104,32 @@ Vector<ROWS> MAT_R_C::col(int i) const {
 
 TEMPL_R_C
 MAT_R_C& MAT_R_C::operator+= (MAT_R_C const& mat) {
-	for (int i = 0; i < ROWS, i++)
-	for (int j = 0; j < COLS, j++)
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
 		(*this)(i,j) += mat(i,j);
 	return *this;
 }
 
 TEMPL_R_C
 MAT_R_C& MAT_R_C::operator-= (MAT_R_C const& mat) {
-	for (int i = 0; i < ROWS, i++)
-	for (int j = 0; j < COLS, j++)
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
 		(*this)(i,j) -= mat(i,j);
 	return *this;
 }
 
 TEMPL_R_C
 MAT_R_C& MAT_R_C::operator*= (double scalar) {
-	for (int i = 0; i < ROWS, i++)
-	for (int j = 0; j < COLS, j++)
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
 		(*this)(i,j) *= scalar;
 	return *this;
 }
 
 TEMPL_R_C
 MAT_R_C& MAT_R_C::operator/= (double scalar) {
-	for (int i = 0; i < ROWS, i++)
-	for (int j = 0; j < COLS, j++)
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
 		(*this)(i,j) /= scalar;
 	return *this;
 }
@@ -176,7 +176,7 @@ Vector<ROWS> operator* (MAT_R_C const& mat, Vector<COLS> const& vec) {
 TEMPL_R_C
 Matrix<ROWS-1, COLS-1> minor(MAT_R_C const& mat, int row, int col) {
 	Matrix<ROWS-1, COLS-1> result;
-	for (int i = 0; i < ROWS-1, i++)
+	for (int i = 0; i < ROWS-1; i++)
 	for (int j = 0; j < COLS-1; j++)
 		result(i,j) = mat(i<row ? i : i+1, j<col ? j : j+1);
 	return result;
@@ -194,12 +194,12 @@ MAT_R_C trans(MAT_R_C const& mat) {
 TEMPL_S
 double det(MAT_S const& mat) {
 	double result = 0;
-	for (int i = 0; i < COLS; i++)
+	for (int i = 0; i < SIZE; i++)
 		result += (i%2 ? 1 : -1) * det(minor(mat, 0, i));
 	return result;
 }
 template<>
-double det<1,1>(Matrix<1,1> const& mat) {
+double det<1>(Matrix<1,1> const& mat) {
 	return mat(0,0);
 }
 
