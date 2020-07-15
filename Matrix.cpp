@@ -1,5 +1,7 @@
 #define TEMPL_R_C template<int ROWS, int COLS>
 #define MAT_R_C   Matrix<ROWS,COLS>
+#define TEMPL_S   template<int SIZE>
+#define MAT_S     Matrix<SIZE, SIZE>
 #define TEMPL_S_G template<int SIZE, class GETTER>
 #define RV_S_G    Matrix<ROWS, COLS>::RefVec<SIZE, GETTER>
 
@@ -183,10 +185,22 @@ Matrix<ROWS-1, COLS-1> minor(MAT_R_C const& mat, int row, int col) {
 TEMPL_R_C
 MAT_R_C trans(MAT_R_C const& mat) {
 	MAT_R_C result;
-	for (int i = 0; i < ROWS-1, i++)
-	for (int j = 0; j < COLS-1; j++)
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
 		result(i,j) = mat(j,i);
 	return result;
+}
+
+TEMPL_S
+double det(MAT_S const& mat) {
+	double result = 0;
+	for (int i = 0; i < COLS; i++)
+		result += (i%2 ? 1 : -1) * det(minor(mat, 0, i));
+	return result;
+}
+template<>
+double det<1,1>(Matrix<1,1> const& mat) {
+	return mat(0,0);
 }
 
 }//namespace matrix//
