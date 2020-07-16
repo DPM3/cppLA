@@ -102,7 +102,7 @@ TEMPL_S double det(MAT_S const& mat);
 TEMPL_S MAT_S adj(MAT_S const& mat);
 
 //inverse (only for square matrices):
-TEMPL_S MAT_S inv(MAT_S const& mat);
+TEMPL_S MAT_S inv(MAT_S mat);
 
 //cannonical form of mat:
 TEMPL_R_C MAT_R_C cf(MAT_R_C mat);

@@ -220,6 +220,37 @@ double det<1>(Matrix<1,1> const& mat) {
 	return mat(0,0);
 }
 
+TEMPL_S
+MAT_S inv(MAT_S mat) {
+	//NOTE: This is exactly the same algorithm of the cf(mat) function,
+	//only it is doing every elentary operation to I as well.
+	//This gives us the inverse
+	//
+	//also notice that since this is only for square matrices, we use SIZE instead of ROWS or COLS
+	//(like in the original algorithm for canonnical form)
+
+	MAT_S result(1); // = I
+
+	int amountScanned = -1;
+	for (int mostSegCol = 0; mostSegCol < SIZE; mostSegCol++) {
+		int row = amountScanned + 1;
+		while (mat(row,mostSegCol) == 0) row++;
+		if (row == SIZE) continue;
+
+		mat.elmtryMult(row, 1.0/mat(row,mostSegCol));
+		result.elmtryMult(row, 1.0/mat(row,mostSegCol)); //changes here
+		for (int i = 0; i < SIZE; i++) {
+			if (i == row)
+				i++;
+			mat.elmtryAdd(i, row, -mat(row,mostSegCol));
+			result.elmtryAdd(i, row, -mat(row,mostSegCol)); //here
+		}
+		mat.elmtrySwap(row, ++amountScanned);
+		result.elmtrySwap(row, ++amountScanned); //and here
+	}
+	return result;
+}
+
 TEMPL_R_C
 MAT_R_C cf(MAT_R_C mat) { //notice we get a copy, not the original
 	//indicate how many rows have been scanned(minus one for implementation purposes)
