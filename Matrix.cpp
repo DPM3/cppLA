@@ -220,6 +220,30 @@ double det<1>(Matrix<1,1> const& mat) {
 	return mat(0,0);
 }
 
+TEMPL_R_C
+MAT_R_C cf(MAT_R_C mat) { //notice we get a copy, not the original
+	//indicate how many rows have been scanned(minus one for implementation purposes)
+	int amountScanned = -1;
+	//mostSegCol = column of the next scanned row's most segnificant element(most left that isn't 0)
+	for (int mostSegCol = 0; mostSegCol < COLS; mostSegCol++) {
+		int row = amountScanned + 1;
+		while (mat(row,mostSegCol) == 0) row++;
+		//if couldn't find row with a proper most segnificant element, then move on to the next iteration
+		if (row == ROWS) continue;
+
+		mat.elmtryMult(row, 1.0/mat(row,mostSegCol));
+		//subtract all other rows
+		for (int i = 0; i < ROWS; i++) {
+			if (i == row)
+				i++;
+			mat.elmtryAdd(i, row, -mat(row,mostSegCol));
+		}
+		//organize rows to match wanted shape
+		mat.elmtrySwap(row, ++amountScanned);
+	}
+	return mat;
+}
+
 }//namespace matrix//
 
 #undef TEMPL_R_C
