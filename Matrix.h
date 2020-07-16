@@ -39,6 +39,7 @@ public:
 		operator Vector<SIZE> ();
 
 	//setter operations:
+		RefVec& operator=  (Vector<SIZE> vec);
 		RefVec& operator+= (Vector<SIZE> vec);
 		RefVec& operator-= (Vector<SIZE> vec);
 		RefVec& operator*= (double scalar);
@@ -73,6 +74,8 @@ public:
 	void elmtryMult(int row, double scalar);
 };
 
+//basic comparison:
+TEMPL_R_C bool operator== (MAT_R_C const& mat1, MAT_R_C const& mat2);
 
 //basic addition:
 TEMPL_R_C MAT_R_C operator+ (MAT_R_C mat1, MAT_R_C const& mat2);
@@ -101,11 +104,17 @@ TEMPL_S double det(MAT_S const& mat);
 //adjoint (only for square matrices):
 TEMPL_S MAT_S adj(MAT_S const& mat);
 
+//check inversibility:
+TEMPL_R_C bool hasInv(MAT_R_C const& mat);
+
 //inverse (only for square matrices):
 TEMPL_S MAT_S inv(MAT_S mat);
 
 //cannonical form of mat:
 TEMPL_R_C MAT_R_C cf(MAT_R_C mat);
+
+//print matrix:
+TEMPL_R_C ostream& operator<<(ostream& os, MAT_R_C const& mat);
 
 }//namespace matrix//
 

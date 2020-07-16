@@ -1,3 +1,5 @@
+#include<iostream>
+
 #define TEMPL_R_C template<int ROWS, int COLS>
 #define MAT_R_C   Matrix<ROWS,COLS>
 #define TEMPL_S   template<int SIZE>
@@ -12,7 +14,7 @@ TEMPL_R_C
 MAT_R_C::Matrix(double scalar) {
 	for (int i = 0; i < ROWS; i++)
 	for (int j = 0; j < COLS; j++)
-		if (i == j) (*this)(i,j) = 1;
+		if (i == j) (*this)(i,j) = scalar;
 		else (*this)(i,j) = 0;
 }
 
@@ -37,25 +39,36 @@ RV_S_G::operator Vector<SIZE> () {
 }
 
 TEMPL_R_C TEMPL_S_G
+RV_S_G& RV_S_G::operator=  (Vector<SIZE> vec) {
+	for (int i = 0; i < SIZE; i++)
+		getElmt(i) = vec[i];
+	return *this;
+}
+
+TEMPL_R_C TEMPL_S_G
 RV_S_G& RV_S_G::operator+= (Vector<SIZE> vec) {
 	for (int i = 0; i < SIZE; i++)
 		getElmt(i) += vec[i];
+	return *this;
 }
 
 TEMPL_R_C TEMPL_S_G
 RV_S_G& RV_S_G::operator-= (Vector<SIZE> vec) {
 	for (int i = 0; i < SIZE; i++)
 		getElmt(i) -= vec[i];
+	return *this;
 }
 TEMPL_R_C TEMPL_S_G
 RV_S_G& RV_S_G::operator*= (double scalar) {
 	for (int i = 0; i < SIZE; i++)
 		getElmt(i) *= scalar;
+	return *this;
 }
 TEMPL_R_C TEMPL_S_G
 RV_S_G& RV_S_G::operator/= (double scalar) {
 	for (int i = 0; i < SIZE; i++)
 		getElmt(i) /= scalar;
+	return *this;
 }
 
 //////////-- End of RefVec --//////////
@@ -72,7 +85,7 @@ double const& MAT_R_C::operator() (int i, int j) const {
 
 TEMPL_R_C
 auto MAT_R_C::rowRef (int i) {
-	auto getter = [this, &i] (int j) {
+	auto getter = [this, &i] (int j) -> double& {
 		return (*this)(i,j);
 	};
 	return RefVec<COLS, decltype(getter)>(getter);
@@ -88,7 +101,7 @@ Vector<COLS> MAT_R_C::row(int i) const {
 
 TEMPL_R_C
 auto MAT_R_C::colRef (int i) {
-	auto getter = [this, &i] (int j) {
+	auto getter = [this, &i] (int j) -> double& {
 		return (*this)(i,j);
 	};
 	return RefVec<ROWS, decltype(getter)>(getter);
@@ -152,6 +165,14 @@ void MAT_R_C::elmtryMult(int row, double scalar) {
 }
 
 //////////-- End of Matrix --//////////
+
+TEMPL_R_C
+bool operator== (MAT_R_C const& mat1, MAT_R_C const& mat2) {
+	for (int i = 0; i < ROWS; i++)
+	for (int j = 0; j < COLS; j++)
+		if (mat1(i,j) != mat2(i,j)) return false;
+	return true;
+}
 
 TEMPL_R_C
 MAT_R_C operator+ (MAT_R_C mat1, MAT_R_C const& mat2) {
@@ -221,7 +242,23 @@ double det<1>(Matrix<1,1> const& mat) {
 }
 
 TEMPL_S
+MAT_S adj(MAT_S const& mat) {
+	MAT_S result;
+	for (int i = 0; i < SIZE; i++)
+	for (int j = 0; j < SIZE; j++)
+		result(i,j) = ((i+j)%2 ? -1 : 1) * det(minor(mat, j, i));
+	return result;
+}
+
+TEMPL_R_C
+bool hasInv(MAT_R_C const& mat) {
+	return cf(mat) == MAT_R_C(0);
+}
+
+TEMPL_S
 MAT_S inv(MAT_S mat) {
+	if (!hasInv(mat)) return MAT_S(0);
+
 	//NOTE: This is exactly the same algorithm of the cf(mat) function,
 	//only it is doing every elentary operation to I as well.
 	//This gives us the inverse
@@ -273,6 +310,17 @@ MAT_R_C cf(MAT_R_C mat) { //notice we get a copy, not the original
 		mat.elmtrySwap(row, ++amountScanned);
 	}
 	return mat;
+}
+
+TEMPL_R_C
+ostream& operator<<(ostream& os, MAT_R_C const& mat) {
+	cout << endl;
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < COLS; j++)
+			cout << mat(i,j) << '\t';
+		cout << endl;
+	}
+	return os;
 }
 
 }//namespace matrix//
