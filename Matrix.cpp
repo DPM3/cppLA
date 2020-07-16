@@ -134,6 +134,23 @@ MAT_R_C& MAT_R_C::operator/= (double scalar) {
 	return *this;
 }
 
+TEMPL_R_C
+void MAT_R_C::elmtrySwap(int row1, int row2) {
+	Vector<COLS> temp = row(row1);
+	rowRef(row1) = row(row2);
+	rowRef(row2) = temp;
+}
+
+TEMPL_R_C
+void MAT_R_C::elmtryAdd(int row1, int row2, double scalar) {
+	rowRef(row1) += row(row2) * scalar;
+}
+
+TEMPL_R_C
+void MAT_R_C::elmtryMult(int row, double scalar) {
+	rowRef(row) *= scalar;
+}
+
 //////////-- End of Matrix --//////////
 
 TEMPL_R_C

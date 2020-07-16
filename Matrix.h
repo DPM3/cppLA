@@ -66,7 +66,13 @@ public:
 //basic scaling:
 	Matrix& operator*= (double scalar);
 	Matrix& operator/= (double scalar);
+
+//elemtary operations on a matrix:
+	void elmtrySwap(int row1, int row2);
+	void elmtryAdd (int row1, int row2, double scalar);
+	void elmtryMult(int row, double scalar);
 };
+
 
 //basic addition:
 TEMPL_R_C MAT_R_C operator+ (MAT_R_C mat1, MAT_R_C const& mat2);
@@ -97,6 +103,9 @@ TEMPL_S MAT_S adj(MAT_S const& mat);
 
 //inverse (only for square matrices):
 TEMPL_S MAT_S inv(MAT_S const& mat);
+
+//cannonical form of mat:
+TEMPL_R_C MAT_R_C cf(MAT_R_C mat);
 
 }//namespace matrix//
 
